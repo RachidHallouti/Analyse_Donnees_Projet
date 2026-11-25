@@ -23,6 +23,42 @@ print("\n VALEURS MANQUANTES :")
 print(df.isna().sum())
 
 # TODO 0.2 : repérer une valeur aberrante dans heures_etude (describe, boxplot). Que faites-vous ? Justifiez.
+
+print("\n STATISTIQUES DE HEURES_ETUDE :")
+heures_etude_stat = df["heures_etude"].describe()
+print(heures_etude_stat)
+q1 = heures_etude_stat["25%"]
+q2 = heures_etude_stat["50%"]
+median = q2
+q3 = heures_etude_stat["75%"]
+iqr = q3 - q1
+limite_sup = q3 + 1.5 * iqr
+print("Limite superieure :", limite_sup)
+
+valeurs_aberrantes = df[(df["heures_etude"] > limite_sup)]
+print("\n VALEURS ABERRANTES :")
+print(valeurs_aberrantes[["id", "heures_etude"]])
+
+
+plt.figure(figsize=(10, 4))
+sns.boxplot(x=df["heures_etude"])
+plt.title("boite à moustache des heures d'étude")
+plt.xlabel("Heures d'étude par semaine")
+plt.show()
+
+df["heures_etude_corrige"] = df["heures_etude"]
+df.loc[df["heures_etude_corrige"] == 95,"heures_etude_corrige"] = np.nan
+print(df["heures_etude_corrige"].describe())
+
+print("\n VALEURS MANQUANTES APRES CORRECTION :")
+print(df["heures_etude_corrige"].isna().sum())
+
+# JUSTIFICATION :
+# La methode IQR a detecte 6 valeurs depassant la limite superieure.
+# Les 5 valeurs elevees sont conservees car elles restent plausibles.
+# En revanche, 95 heures par semaine est une valeur extremement elevee et peu realiste.
+# Nous la remplacons par NaN pour eviter de fausser les analyses, tout en conservant les donnees originales.
+
 # TODO 0.3 : construire le tableau d'analyse "d" sans valeurs manquantes sur les variables utilisées
 
 # %% PARTIE 1 : analyse descriptive (2 pts)
