@@ -50,9 +50,6 @@ df["heures_etude_corrige"] = df["heures_etude"]
 df.loc[df["heures_etude_corrige"] == 95,"heures_etude_corrige"] = np.nan
 print(df["heures_etude_corrige"].describe())
 
-print("\n VALEURS MANQUANTES APRES CORRECTION :")
-print(df["heures_etude_corrige"].isna().sum())
-
 # JUSTIFICATION :
 # La methode IQR a detecte 6 valeurs depassant la limite superieure.
 # Les 5 valeurs elevees sont conservees car elles restent plausibles.
@@ -60,6 +57,11 @@ print(df["heures_etude_corrige"].isna().sum())
 # Nous la remplacons par NaN pour eviter de fausser les analyses, tout en conservant les donnees originales.
 
 # TODO 0.3 : construire le tableau d'analyse "d" sans valeurs manquantes sur les variables utilisées
+
+d = df.drop(columns=["id", "heures_etude"]).copy().dropna()
+print(d.shape)
+print(d.isna().sum())
+
 
 # %% PARTIE 1 : analyse descriptive (2 pts)
 # TODO 1.1 : moyenne, écart-type, min, max de moyenne_bac, heures_etude, note_stat
