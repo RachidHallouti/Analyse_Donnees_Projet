@@ -59,14 +59,51 @@ print(df["heures_etude_corrige"].describe())
 # TODO 0.3 : construire le tableau d'analyse "d" sans valeurs manquantes sur les variables utilisées
 
 d = df.drop(columns=["id", "heures_etude"]).copy().dropna()
-print(d.shape)
-print(d.isna().sum())
-
 
 # %% PARTIE 1 : analyse descriptive (2 pts)
 # TODO 1.1 : moyenne, écart-type, min, max de moyenne_bac, heures_etude, note_stat
+
+print(d[["moyenne_bac", "heures_etude_corrige", "note_stat"]].describe())
+
 # TODO 1.2 : moyenne de note_stat par filière ; effectifs de chaque modalité qualitative
+
+print("\n moyenne de note_stat par filière")
+print(d.groupby("filiere")["note_stat"].mean())
+print("\n EFFECTIFS PAR FILIERE :")
+print(d["filiere"].value_counts())
+
+print("\n EFFECTIFS PAR SEXE :")
+print(d["sexe"].value_counts())
+
+print("\n EFFECTIFS PAR LOGEMENT :")
+print(d["logement"].value_counts())
+
+print("\n EFFECTIFS PAR ASSIDUITE :")
+print(d["assiduite"].value_counts())
+
+print("\n EFFECTIFS PAR REUSSITE :")
+print(d["reussite"].value_counts())
 # TODO 1.3 : 2 graphiques commentés (histogramme et boxplot par exemple)
+
+plt.figure(figsize=(8, 5))
+
+plt.hist(d["note_stat"], bins=10, edgecolor="black")
+
+plt.title("Distribution des notes en statistique")
+plt.xlabel("Note en statistique")
+plt.ylabel("Nombre d'étudiants")
+
+plt.show()
+
+plt.figure(figsize=(8, 5))
+
+sns.boxplot(data=d, x="filiere", y="note_stat")
+
+plt.title("Distribution des notes par filière")
+plt.xlabel("Filière")
+plt.ylabel("Note en statistique")
+
+plt.show()
 
 # %% PARTIE 2 : régression linéaire simple, note_stat ~ heures_etude (6 pts)
 # TODO 2.1 : nuage de points. La relation semble-t-elle linéaire ?
