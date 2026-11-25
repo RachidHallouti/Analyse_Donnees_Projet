@@ -12,8 +12,16 @@ ALPHA = 0.05
 
 # %% PARTIE 0 : chargement et nettoyage (2 pts)
 df = pd.read_csv("donnees_projet.csv")
-print(df)
+
 # TODO 0.1 : dimensions, types, valeurs manquantes par variable
+
+print("\n DIMENSIONS :")
+print(df.shape)
+print("\n TYPES :")
+print(df.dtypes)
+print("\n VALEURS MANQUANTES :")
+print(df.isna().sum())
+
 # TODO 0.2 : repérer une valeur aberrante dans heures_etude (describe, boxplot). Que faites-vous ? Justifiez.
 # TODO 0.3 : construire le tableau d'analyse "d" sans valeurs manquantes sur les variables utilisées
 
